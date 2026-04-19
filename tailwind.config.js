@@ -11,7 +11,10 @@ export default {
           mint: '#17B798',
           navy: '#1A2B3C',
           bg: '#F4F7F6',
-          white: '#FFFFFF'
+          white: '#FFFFFF',
+          green: '#92C118',
+          blue: '#0087B6',
+          orange: '#F29D00'
         }
       },
       fontFamily: {
