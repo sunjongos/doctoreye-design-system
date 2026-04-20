@@ -1,0 +1,97 @@
+<!doctype html>
+<html lang="en">
+<head>
+<meta charset="utf-8">
+<title>Doctor Eye · Clinician Dashboard</title>
+<link rel="stylesheet" href="../../colors_and_type.css">
+<style>
+  html, body { margin: 0; height: 100%; background: #F4F7F6; }
+  .dash { height: 100vh; min-height: 720px; display: flex; overflow: hidden; }
+  .main { flex: 1; display: flex; flex-direction: column; min-width: 0; }
+  .content { flex: 1; display: flex; overflow: hidden; }
+  .list { flex: 1; padding: 24px 28px; overflow-y: auto; min-width: 0; }
+</style>
+</head>
+<body>
+<div id="root"></div>
+<script src="https://unpkg.com/react@18.3.1/umd/react.development.js" integrity="sha384-hD6/rw4ppMLGNu3tX5cjIb+uRZ7UkRJ6BPkLpg4hAu/6onKUg4lLsHAs9EBPT82L" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/react-dom@18.3.1/umd/react-dom.development.js" integrity="sha384-u6aeetuaXnQ38mYT8rp6sbXaQe3NL9t+IBXmnYxwkUI2Hw4bsp2Wvmx4yRQF1uAm" crossorigin="anonymous"></script>
+<script src="https://unpkg.com/@babel/standalone@7.29.0/babel.min.js" integrity="sha384-m08KidiNqLdpJqLq95G/LEi8Qvjl/xUYll3QILypMoQ65QorJ9Lvtp2RXYGBFj1y" crossorigin="anonymous"></script>
+<script type="text/babel" src="Primitives.jsx"></script>
+<script type="text/babel" src="Components.jsx"></script>
+<script type="text/babel" src="ExamDetail.jsx"></script>
+<script type="text/babel" data-presets="react">
+const PATIENTS = [
+  { id: '0238', initials: 'MJ', color: 'linear-gradient(135deg,#CDEFE7,#17B798)', name: '김민지 (Minji Kim)', age: 39, sex: 'F', reason: 'Retinal exam', last: 'Today · 10:22', status: 'AI reviewed', tone: 'info', aiFlagged: true },
+  { id: '0312', initials: 'JH', color: 'linear-gradient(135deg,#B8DDED,#0087B6)', name: '박재현 (Jaehyun Park)', age: 54, sex: 'M', reason: 'Glaucoma f/u', last: 'Today · 9:05', status: 'Elevated IOP', tone: 'warn', aiFlagged: true },
+  { id: '0441', initials: 'SE', color: 'linear-gradient(135deg,#FADFA2,#F29D00)', name: '이수연 (Sooyeon Lee)', age: 28, sex: 'F', reason: 'Dry eye', last: 'Yesterday', status: 'Stable', tone: 'success', aiFlagged: false },
+  { id: '0556', initials: 'DW', color: 'linear-gradient(135deg,#E2EFB8,#92C118)', name: '최도원 (Dowon Choi)', age: 62, sex: 'M', reason: 'Cataract eval', last: '2 days ago', status: 'Needs review', tone: 'danger', aiFlagged: false },
+  { id: '0612', initials: 'YJ', color: 'linear-gradient(135deg,#CDEFE7,#0F8570)', name: '한유진 (Yujin Han)', age: 45, sex: 'F', reason: 'Annual exam', last: '3 days ago', status: 'Normal', tone: 'success', aiFlagged: false },
+  { id: '0703', initials: 'TH', color: 'linear-gradient(135deg,#F5C3C4,#E5484D)', name: '강태훈 (Taehun Kang)', age: 71, sex: 'M', reason: 'Macular degen.', last: '4 days ago', status: 'Follow-up', tone: 'danger', aiFlagged: true },
+  { id: '0819', initials: 'HR', color: 'linear-gradient(135deg,#B8DDED,#035d80)', name: '서하림 (Harim Seo)', age: 33, sex: 'F', reason: 'Vision check', last: '5 days ago', status: 'Stable', tone: 'success', aiFlagged: false },
+];
+
+function App() {
+  const [nav, setNav] = React.useState('patients');
+  const [sel, setSel] = React.useState(() => {
+    const saved = localStorage.getItem('doctoreye.patient');
+    return PATIENTS.find(p => p.id === saved) || PATIENTS[0];
+  });
+  React.useEffect(() => { if (sel) localStorage.setItem('doctoreye.patient', sel.id); }, [sel]);
+
+  return (
+    <div className="dash" data-screen-label="01 Clinician Dashboard">
+      <Sidebar current={nav} onChange={setNav} />
+      <div className="main">
+        <DTopBar />
+        <div className="content">
+          <div className="list">
+            <div style={{ display: 'flex', alignItems: 'baseline', justifyContent: 'space-between', marginBottom: 18 }}>
+              <div>
+                <div style={{ fontSize: 26, fontWeight: 700, color: '#1A2B3C', letterSpacing: '-0.02em' }}>Patients</div>
+                <div style={{ fontSize: 13, color: '#6B7A8C', marginTop: 4 }}>Today's queue · 7 active · 3 AI flagged for review</div>
+              </div>
+              <div style={{ display: 'flex', gap: 8 }}>
+                <button style={{ background: '#fff', border: '1px solid #E5E7EB', padding: '8px 14px', borderRadius: 8, fontSize: 13, display: 'inline-flex', alignItems: 'center', gap: 6, cursor: 'pointer', color: '#1A2B3C', fontFamily: 'inherit' }}>
+                  <DIcon name="filter" size={14} /> Filter
+                </button>
+                <button style={{ background: '#17B798', color: '#fff', border: 0, padding: '8px 14px', borderRadius: 8, fontSize: 13, fontWeight: 500, cursor: 'pointer', fontFamily: 'inherit' }}>
+                  + Add patient
+                </button>
+              </div>
+            </div>
+
+            <div style={{ display: 'grid', gridTemplateColumns: 'repeat(4, 1fr)', gap: 12, marginBottom: 20 }}>
+              <MetricTile label="Today's exams" value="18" unit="of 24" delta="+3" tone="mint" />
+              <MetricTile label="AI reviewed" value="96" unit="%" delta="+2" tone="blue" />
+              <MetricTile label="Pending review" value="4" delta="-1" tone="orange" />
+              <MetricTile label="Avg. IOP" value="14.2" unit="mmHg" delta="+0.1" tone="navy" />
+            </div>
+
+            <div style={{ background: '#fff', borderRadius: 12, border: '1px solid #F3F4F6', boxShadow: '0 4px 20px rgb(0 0 0 / 0.04)', overflow: 'hidden' }}>
+              <div style={{
+                display: 'grid', gridTemplateColumns: '44px 2fr 1.4fr 1fr 1fr 90px',
+                gap: 12, padding: '12px 18px',
+                borderBottom: '1px solid #F3F4F6',
+                fontSize: 11, fontWeight: 600, color: '#6B7A8C',
+                textTransform: 'uppercase', letterSpacing: '0.06em',
+                background: '#FAFBFB',
+              }}>
+                <div></div><div>Patient</div><div>Reason</div><div>Last visit</div><div>Status</div><div></div>
+              </div>
+              {PATIENTS.map(p => (
+                <PatientListRow key={p.id} patient={p} active={sel?.id === p.id} onClick={() => setSel(p)} />
+              ))}
+            </div>
+          </div>
+          <ExamDetail patient={sel} />
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById('root')).render(<App />);
+</script>
+</body>
+</html>

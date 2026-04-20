@@ -1,0 +1,21 @@
+<!doctype html>
+<html><head><meta charset="utf-8"><link rel="stylesheet" href="../colors_and_type.css">
+<style>body{margin:0;padding:20px;background:#fff;display:grid;grid-template-columns:1fr 1fr;gap:14px}
+label{display:block}
+.l{font-size:12px;font-weight:500;color:#3B4F65;margin-bottom:6px;text-transform:uppercase;letter-spacing:.06em}
+.i{width:100%;box-sizing:border-box;font-family:inherit;font-size:15px;padding:11px 14px;border-radius:8px;border:1px solid #E5E7EB;background:#fff;color:#1A2B3C;outline:none;transition:all 150ms}
+.i:focus{border-color:#17B798;box-shadow:0 0 0 3px rgb(23 183 152 / 0.18)}
+.i.err{border-color:#E5484D}
+.hint{font-size:12px;color:#6B7280;margin-top:5px}
+.hint.err{color:#E5484D}
+.chk{display:inline-flex;align-items:center;gap:8px;font-size:14px;color:#1A2B3C}
+.box{width:18px;height:18px;border-radius:4px;background:#17B798;display:inline-flex;align-items:center;justify-content:center}
+</style></head><body>
+<label><div class="l">Patient name</div><input class="i" value="김민지"><div class="hint">Registered in chart</div></label>
+<label><div class="l">Email</div><input class="i err" value="minji@pi"><div class="hint err">Enter a valid email.</div></label>
+<label><div class="l">Notes</div><textarea class="i" rows="2">Patient reports mild dryness in left eye.</textarea></label>
+<div style="display:flex;flex-direction:column;gap:10px;padding-top:22px">
+  <span class="chk"><span class="box"><svg width="12" height="12" viewBox="0 0 24 24" fill="none" stroke="#fff" stroke-width="3" stroke-linecap="round"><polyline points="20 6 9 17 4 12"/></svg></span> Agree to share with care team</span>
+  <span class="chk"><span class="box" style="background:#fff;border:1.5px solid #E5E7EB"></span> Subscribe to weekly vision tips</span>
+</div>
+</body></html>

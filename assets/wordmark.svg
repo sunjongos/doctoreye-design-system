@@ -1,0 +1,10 @@
+<svg xmlns="http://www.w3.org/2000/svg" viewBox="0 0 260 64" width="260" height="64" fill="none">
+  
+  <path d="M6 32 C14 20, 24 15, 30 15 C36 15, 46 20, 54 32 C46 44, 36 49, 30 49 C24 49, 14 44, 6 32 Z" stroke="#1A2B3C" stroke-width="2.5" stroke-linejoin="round" fill="#FFFFFF"></path>
+  <circle cx="30" cy="32" r="9" fill="#17B798"></circle>
+  <circle cx="30" cy="32" r="3.6" fill="#1A2B3C"></circle>
+  <circle cx="27.5" cy="29.5" r="1.4" fill="#FFFFFF"></circle>
+  
+  <text x="72" y="42" font-family="Pretendard, &#39;Noto Sans KR&#39;, sans-serif" font-weight="700" font-size="28" letter-spacing="-0.5" fill="#1A2B3C">Doctor</text>
+  <text x="180" y="42" font-family="Pretendard, &#39;Noto Sans KR&#39;, sans-serif" font-weight="700" font-size="28" letter-spacing="-0.5" fill="#17B798">Eye</text>
+</svg>
